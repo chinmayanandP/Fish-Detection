@@ -1,0 +1,1 @@
+"""YOLO model training pipeline."""

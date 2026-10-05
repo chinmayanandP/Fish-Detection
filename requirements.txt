@@ -1,0 +1,11 @@
+numpy
+opencv-python
+pillow
+requests
+tqdm
+pandas
+matplotlib
+scikit-learn
+albumentations
+pyyaml
+ultralytics
