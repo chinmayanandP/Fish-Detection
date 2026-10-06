@@ -1,1 +1,1 @@
-"""Final model testing pipeline."""
+"""Fish detection final testing stage."""

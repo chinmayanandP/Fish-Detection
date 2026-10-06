@@ -1,13 +1,12 @@
 from __future__ import annotations
 
-import json
+import re
 import subprocess
 import sys
 from pathlib import Path
 
-
 # ============================================================
-# PROJECT PATHS
+# PROJECT ROOT
 # ============================================================
 
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -15,700 +14,1043 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 VENV_DIR = PROJECT_ROOT / ".venv"
 REQUIREMENTS_FILE = PROJECT_ROOT / "requirements.txt"
 
-if sys.platform == "win32":
+IS_WINDOWS = sys.platform.startswith("win")
+
+if IS_WINDOWS:
     VENV_PYTHON = VENV_DIR / "Scripts" / "python.exe"
 else:
     VENV_PYTHON = VENV_DIR / "bin" / "python"
 
 
 # ============================================================
-# PROJECT FOLDER STRUCTURE
+# CANONICAL PROJECT STRUCTURE
 # ============================================================
 
-FOLDERS = [
-    # --------------------------------------------------------
-    # MAIN MACHINE LEARNING PIPELINE
-    # --------------------------------------------------------
-    "preprocessing",
-    "training",
-    "validation",
-    "testing",
+CANONICAL_DIRECTORIES = [
 
-    # --------------------------------------------------------
-    # DATASET
-    # --------------------------------------------------------
-    "data",
-    "data/downloads",
-    "data/raw",
-    "data/raw/brackish",
-    "data/processed",
-    "data/processed/brackish",
+    # ========================================================
+    # MASTER DATASET
+    # ========================================================
 
-    # Dataset split manifests
-    "data/splits",
+    "master_dataset/downloads",
+    "master_dataset/raw/brackish",
+    "master_dataset/splits",
+    "master_dataset/metadata",
+    "master_dataset/reports",
 
-    # --------------------------------------------------------
-    # CONFIGURATION
-    # --------------------------------------------------------
+    # ========================================================
+    # PREPROCESSING - PREPARED DATASET
+    # ========================================================
+
+    "preprocessing/prepared_dataset/train/images",
+    "preprocessing/prepared_dataset/train/labels",
+
+    "preprocessing/prepared_dataset/val/images",
+    "preprocessing/prepared_dataset/val/labels",
+
+    "preprocessing/prepared_dataset/test/images",
+    "preprocessing/prepared_dataset/test/labels",
+
+    "preprocessing/prepared_dataset/manifests",
+    "preprocessing/prepared_dataset/metadata",
+    "preprocessing/prepared_dataset/reports",
+
+    # ========================================================
+    # PREPROCESSING - SMOKE TEST
+    # ========================================================
+
+    "preprocessing/smoke_test_results/candidates",
+    "preprocessing/smoke_test_results/winners",
+    "preprocessing/smoke_test_results/comparison_grids",
+    "preprocessing/smoke_test_results/reports",
+
+    # ========================================================
+    # PREPROCESSING - FINAL PREPROCESSED DATASET
+    # ========================================================
+
+    "preprocessing/preprocessed_dataset/train/images",
+    "preprocessing/preprocessed_dataset/train/labels",
+
+    "preprocessing/preprocessed_dataset/val/images",
+    "preprocessing/preprocessed_dataset/val/labels",
+
+    "preprocessing/preprocessed_dataset/test/images",
+    "preprocessing/preprocessed_dataset/test/labels",
+
+    "preprocessing/preprocessed_dataset/manifests",
+    "preprocessing/preprocessed_dataset/metadata",
+    "preprocessing/preprocessed_dataset/reports",
+
+    # ========================================================
+    # TRAINING
+    # ========================================================
+
+    "training/configs",
+
+    "training/results/models",
+    "training/results/plots",
+    "training/results/logs",
+    "training/results/checkpoints",
+
+    # ========================================================
+    # VALIDATION
+    # ========================================================
+
+    "validation/results/metrics",
+    "validation/results/plots",
+    "validation/results/confusion_matrix",
+    "validation/results/predictions",
+
+    # ========================================================
+    # TESTING
+    # ========================================================
+
+    "testing/results/metrics",
+    "testing/results/plots",
+    "testing/results/predictions",
+    "testing/results/annotated_images",
+
+    # ========================================================
+    # EXTERNAL VIDEO
+    # ========================================================
+
+    "external_video/input",
+
+    "external_video/results/videos",
+    "external_video/results/frames",
+    "external_video/results/detections",
+    "external_video/results/metrics",
+
+    # ========================================================
+    # GENERAL
+    # ========================================================
+
     "configs",
-
-    # --------------------------------------------------------
-    # EXPERIMENTS
-    # --------------------------------------------------------
-    "experiments",
-
-    # --------------------------------------------------------
-    # TRAINING OUTPUTS
-    # --------------------------------------------------------
-    "runs",
-
-    # --------------------------------------------------------
-    # REPORTS
-    # --------------------------------------------------------
-    "reports",
-    "reports/figures",
-
-    # --------------------------------------------------------
-    # AUTOMATED TESTS
-    # --------------------------------------------------------
     "tests",
-
-    # --------------------------------------------------------
-    # VS CODE
-    # --------------------------------------------------------
     ".vscode",
 ]
 
 
 # ============================================================
-# PYTHON PACKAGE INITIALIZATION FILES
+# DIRECTORIES THAT SHOULD KEEP .gitkeep
 # ============================================================
 
-PYTHON_INIT_FILES = [
-    "preprocessing/__init__.py",
-    "training/__init__.py",
-    "validation/__init__.py",
-    "testing/__init__.py",
-    "tests/__init__.py",
+GITKEEP_DIRECTORIES = [
+
+    # Master dataset local files
+    "master_dataset/downloads",
+    "master_dataset/raw/brackish",
+
+    # Prepared dataset
+    "preprocessing/prepared_dataset/train/images",
+    "preprocessing/prepared_dataset/train/labels",
+
+    "preprocessing/prepared_dataset/val/images",
+    "preprocessing/prepared_dataset/val/labels",
+
+    "preprocessing/prepared_dataset/test/images",
+    "preprocessing/prepared_dataset/test/labels",
+
+    # Smoke test
+    "preprocessing/smoke_test_results/candidates",
+    "preprocessing/smoke_test_results/winners",
+    "preprocessing/smoke_test_results/comparison_grids",
+
+    # Final preprocessed dataset
+    "preprocessing/preprocessed_dataset/train/images",
+    "preprocessing/preprocessed_dataset/train/labels",
+
+    "preprocessing/preprocessed_dataset/val/images",
+    "preprocessing/preprocessed_dataset/val/labels",
+
+    "preprocessing/preprocessed_dataset/test/images",
+    "preprocessing/preprocessed_dataset/test/labels",
+
+    # Training results
+    "training/results/models",
+    "training/results/plots",
+    "training/results/logs",
+    "training/results/checkpoints",
+
+    # Validation
+    "validation/results/metrics",
+    "validation/results/plots",
+    "validation/results/confusion_matrix",
+    "validation/results/predictions",
+
+    # Testing
+    "testing/results/metrics",
+    "testing/results/plots",
+    "testing/results/predictions",
+    "testing/results/annotated_images",
+
+    # External video
+    "external_video/input",
+    "external_video/results/videos",
+    "external_video/results/frames",
+    "external_video/results/detections",
+    "external_video/results/metrics",
 ]
 
 
 # ============================================================
-# EMPTY FOLDERS THAT MUST APPEAR IN GITHUB
+# EXPECTED SOURCE FILES
 # ============================================================
 
-GITKEEP_FOLDERS = [
-    "configs",
-    "data/downloads",
-    "data/raw/brackish",
-    "data/processed/brackish",
-    "data/splits",
+EXPECTED_SOURCE_FILES = [
+
+    # Exactly three preprocessing Python files
+    "preprocessing/prepare_dataset.py",
+    "preprocessing/smoke_test.py",
+    "preprocessing/master_preprocessing.py",
+
+    # Other stages
+    "training/train.py",
+    "validation/validate.py",
+    "testing/test_model.py",
+    "external_video/test_video.py",
+]
+
+
+# ============================================================
+# OBSOLETE STRUCTURE
+# ============================================================
+
+OBSOLETE_DIRECTORIES = [
+    "data",
     "experiments",
-    "reports/figures",
+    "reports",
+    "runs",
 ]
 
 
 # ============================================================
-# REQUIREMENTS.TXT
-# ============================================================
-
-REQUIREMENTS = """\
-numpy
-opencv-python
-pillow
-requests
-tqdm
-pandas
-matplotlib
-scikit-learn
-albumentations
-pyyaml
-ultralytics
-"""
-
-
-# ============================================================
-# .GITIGNORE
-# ============================================================
-
-GITIGNORE = """\
-# ============================================================
-# PYTHON VIRTUAL ENVIRONMENT
-# ============================================================
-
-.venv/
-venv/
-env/
-
-
-# ============================================================
-# PYTHON CACHE
-# ============================================================
-
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-
-# ============================================================
-# DATASET DOWNLOADS
-# ============================================================
-
-data/downloads/*
-!data/downloads/.gitkeep
-
-
-# ============================================================
-# RAW DATASET
-# ============================================================
-
-data/raw/brackish/*
-!data/raw/brackish/.gitkeep
-
-
-# ============================================================
-# PROCESSED DATASET
-# ============================================================
-
-data/processed/brackish/*
-!data/processed/brackish/.gitkeep
-
-
-# ============================================================
-# IMPORTANT:
-# data/splits is intentionally NOT ignored.
-#
-# train.txt
-# val.txt
-# test.txt
-#
-# should be shared between collaborators so both computers
-# train and evaluate using exactly the same split.
+# HELPER
 # ============================================================
 
 
-# ============================================================
-# YOLO / TRAINING OUTPUTS
-# ============================================================
-
-runs/
-
-*.pt
-*.pth
-*.onnx
-*.engine
-*.cache
+def print_header(title: str) -> None:
+    print()
+    print("=" * 72)
+    print(f" {title}")
+    print("=" * 72)
 
 
-# ============================================================
-# LOGS / TEMPORARY FILES
-# ============================================================
+def run_command(
+    command: list[str],
+    *,
+    check: bool = True,
+    capture_output: bool = False,
+) -> subprocess.CompletedProcess:
 
-*.log
-*.tmp
-*.temp
-
-
-# ============================================================
-# ENVIRONMENT VARIABLES
-# ============================================================
-
-.env
+    return subprocess.run(
+        command,
+        cwd=PROJECT_ROOT,
+        check=check,
+        text=True,
+        capture_output=capture_output,
+    )
 
 
 # ============================================================
-# OPERATING SYSTEM FILES
+# 1. PROJECT STRUCTURE
 # ============================================================
 
-.DS_Store
-Thumbs.db
-desktop.ini
-"""
 
+def ensure_project_structure() -> None:
+    print_header(
+        "PROJECT STRUCTURE"
+    )
 
-# ============================================================
-# VS CODE SETTINGS
-# ============================================================
+    created = 0
+    existing = 0
 
-VSCODE_SETTINGS = {
-    # Project-specific Python interpreter
-    "python.defaultInterpreterPath": (
-        "${workspaceFolder}\\.venv\\Scripts\\python.exe"
-    ),
+    for relative_path in CANONICAL_DIRECTORIES:
 
-    # Automatically activate Python environment
-    # whenever a new VS Code terminal is opened.
-    "python.terminal.activateEnvironment": True,
+        path = (
+            PROJECT_ROOT
+            / relative_path
+        )
 
-    # Look for .venv inside the current workspace.
-    "python-envs.workspaceSearchPaths": [
-        "./**/.venv"
-    ],
+        if path.exists():
+            existing += 1
 
-    # Python linting / formatting
-    "editor.formatOnSave": True,
+        else:
+            path.mkdir(
+                parents=True,
+                exist_ok=True,
+            )
 
-    "editor.codeActionsOnSave": {
-        "source.organizeImports": "explicit"
-    },
+            created += 1
 
-    # Testing configuration
-    "python.testing.pytestEnabled": True,
-    "python.testing.unittestEnabled": False,
+            print(
+                f"[CREATED] {relative_path}"
+            )
 
-    # Hide Python cache files
-    "files.exclude": {
-        "**/__pycache__": True,
-        "**/*.pyc": True
-    },
+    print()
+    print(
+        f"Existing directories : {existing}"
+    )
 
-    # Do not search huge local datasets
-    "search.exclude": {
-        "data/raw": True,
-        "data/processed": True,
-        "runs": True
-    }
-}
+    print(
+        f"Created directories  : {created}"
+    )
 
 
 # ============================================================
-# VS CODE EXTENSION RECOMMENDATIONS
+# 2. GITKEEP
 # ============================================================
 
-VSCODE_EXTENSIONS = {
-    "recommendations": [
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-toolsai.jupyter",
-        "charliermarsh.ruff",
-    ]
-}
 
+def ensure_gitkeep_files() -> None:
 
-# ============================================================
-# VS CODE AUTOMATIC SETUP TASK
-# ============================================================
+    for relative_path in GITKEEP_DIRECTORIES:
 
-VSCODE_TASKS = {
-    "version": "2.0.0",
+        directory = (
+            PROJECT_ROOT
+            / relative_path
+        )
 
-    "tasks": [
-        {
-            "label": "Setup Fish Detection Project",
-
-            "type": "shell",
-
-            "command": "python",
-
-            "args": [
-                "setup_project.py"
-            ],
-
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-
-            "presentation": {
-                "reveal": "silent",
-                "panel": "dedicated",
-                "clear": False
-            },
-
-            "problemMatcher": [],
-
-            "runOptions": {
-                "runOn": "folderOpen"
-            }
-        }
-    ]
-}
-
-
-# ============================================================
-# CREATE DIRECTORIES
-# ============================================================
-
-def create_directories() -> None:
-    print("\n[1/8] Creating project folders...\n")
-
-    for folder in FOLDERS:
-        path = PROJECT_ROOT / folder
-
-        path.mkdir(
+        directory.mkdir(
             parents=True,
             exist_ok=True,
         )
 
-        print(f"[OK] {folder}")
+        gitkeep = (
+            directory
+            / ".gitkeep"
+        )
+
+        if not gitkeep.exists():
+            gitkeep.touch()
 
 
 # ============================================================
-# CREATE .GITKEEP FILES
+# 3. DATASET YAML FILES
 # ============================================================
 
-def create_gitkeep_files() -> None:
-    print("\n[2/8] Creating Git placeholder files...\n")
 
-    for folder in GITKEEP_FOLDERS:
-        folder_path = PROJECT_ROOT / folder
+def ensure_dataset_yaml_files() -> None:
+    """
+    Create dataset.yaml files only if they do not already exist.
 
-        folder_path.mkdir(
-            parents=True,
-            exist_ok=True,
+    prepare_dataset.py and master_preprocessing.py may later
+    rewrite/update these files with final metadata.
+    """
+
+    datasets = [
+
+        (
+            PROJECT_ROOT
+            / "preprocessing"
+            / "prepared_dataset"
+            / "dataset.yaml"
+        ),
+
+        (
+            PROJECT_ROOT
+            / "preprocessing"
+            / "preprocessed_dataset"
+            / "dataset.yaml"
+        ),
+    ]
+
+    content = """path: .
+
+train: train/images
+val: val/images
+test: test/images
+
+names:
+  0: fish
+"""
+
+    for path in datasets:
+
+        if not path.exists():
+
+            path.write_text(
+                content,
+                encoding="utf-8",
+            )
+
+            print(
+                f"[CREATED] "
+                f"{path.relative_to(PROJECT_ROOT)}"
+            )
+
+
+# ============================================================
+# 4. LEGACY STRUCTURE CHECK
+# ============================================================
+
+
+def check_obsolete_directories() -> None:
+
+    print_header(
+        "LEGACY STRUCTURE CHECK"
+    )
+
+    found = []
+
+    for name in OBSOLETE_DIRECTORIES:
+
+        path = (
+            PROJECT_ROOT
+            / name
         )
 
-        gitkeep = folder_path / ".gitkeep"
+        if path.exists():
 
-        gitkeep.touch(
-            exist_ok=True,
-        )
+            found.append(
+                path
+            )
+
+    if not found:
 
         print(
-            f"[OK] {gitkeep.relative_to(PROJECT_ROOT)}"
+            "[OK] No obsolete project directories found."
+        )
+
+        return
+
+    print(
+        "[WARNING] Old project directories still exist:"
+    )
+
+    print()
+
+    for path in found:
+
+        print(
+            f"  - {path.name}/"
+        )
+
+    print()
+
+    print(
+        "They will NOT be deleted automatically."
+    )
+
+
+# ============================================================
+# 5. SOURCE FILE VERIFICATION
+# ============================================================
+
+
+def verify_source_files() -> None:
+
+    print_header(
+        "SOURCE FILE CHECK"
+    )
+
+    for relative_path in EXPECTED_SOURCE_FILES:
+
+        path = (
+            PROJECT_ROOT
+            / relative_path
+        )
+
+        if path.exists():
+
+            print(
+                f"[OK] {relative_path}"
+            )
+
+        else:
+
+            print(
+                f"[MISSING] {relative_path}"
+            )
+
+    # ========================================================
+    # IMPORTANT:
+    # preprocessing/ must contain exactly 3 Python files.
+    # ========================================================
+
+    preprocessing_dir = (
+        PROJECT_ROOT
+        / "preprocessing"
+    )
+
+    found_python_files = sorted(
+        file.name
+        for file
+        in preprocessing_dir.glob(
+            "*.py"
+        )
+    )
+
+    expected_python_files = sorted(
+        [
+            "prepare_dataset.py",
+            "smoke_test.py",
+            "master_preprocessing.py",
+        ]
+    )
+
+    print()
+    print(
+        "Preprocessing Python files:"
+    )
+
+    for filename in found_python_files:
+
+        print(
+            f"  - {filename}"
+        )
+
+    if (
+        found_python_files
+        == expected_python_files
+    ):
+
+        print()
+        print(
+            "[OK] preprocessing/ contains exactly "
+            "the three canonical Python files."
+        )
+
+    else:
+
+        print()
+        print(
+            "[WARNING] preprocessing/ Python files "
+            "do not match the canonical structure."
         )
 
 
 # ============================================================
-# CREATE __INIT__.PY FILES
+# 6. VIRTUAL ENVIRONMENT
 # ============================================================
 
-def create_python_packages() -> None:
-    print("\n[3/8] Creating Python package files...\n")
 
-    for filename in PYTHON_INIT_FILES:
-        file_path = PROJECT_ROOT / filename
+def ensure_virtual_environment() -> bool:
 
-        file_path.parent.mkdir(
-            parents=True,
-            exist_ok=True,
-        )
-
-        file_path.touch(
-            exist_ok=True,
-        )
-
-        print(f"[OK] {filename}")
-
-
-# ============================================================
-# WRITE TEXT FILE
-# ============================================================
-
-def write_text_file(
-    relative_path: str,
-    content: str,
-) -> None:
-    file_path = PROJECT_ROOT / relative_path
-
-    file_path.parent.mkdir(
-        parents=True,
-        exist_ok=True,
+    print_header(
+        "PYTHON ENVIRONMENT"
     )
-
-    file_path.write_text(
-        content,
-        encoding="utf-8",
-    )
-
-    print(f"[OK] {relative_path}")
-
-
-# ============================================================
-# WRITE JSON FILE
-# ============================================================
-
-def write_json_file(
-    relative_path: str,
-    data: dict,
-) -> None:
-    file_path = PROJECT_ROOT / relative_path
-
-    file_path.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    file_path.write_text(
-        json.dumps(
-            data,
-            indent=4,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
-
-    print(f"[OK] {relative_path}")
-
-
-# ============================================================
-# CREATE SHARED PROJECT FILES
-# ============================================================
-
-def create_project_files() -> None:
-    print("\n[4/8] Creating shared project files...\n")
-
-    write_text_file(
-        "requirements.txt",
-        REQUIREMENTS,
-    )
-
-    write_text_file(
-        ".gitignore",
-        GITIGNORE,
-    )
-
-    write_json_file(
-        ".vscode/settings.json",
-        VSCODE_SETTINGS,
-    )
-
-    write_json_file(
-        ".vscode/extensions.json",
-        VSCODE_EXTENSIONS,
-    )
-
-    write_json_file(
-        ".vscode/tasks.json",
-        VSCODE_TASKS,
-    )
-
-
-# ============================================================
-# CREATE VIRTUAL ENVIRONMENT
-# ============================================================
-
-def create_virtual_environment() -> bool:
-    print("\n[5/8] Checking Python environment...\n")
 
     if VENV_PYTHON.exists():
+
         print(
-            f"[OK] Virtual environment already exists:\n"
-            f"{VENV_DIR}"
+            "[OK] Existing .venv found."
+        )
+
+        print(
+            f"Python: {VENV_PYTHON}"
+        )
+
+        print()
+
+        print(
+            "The virtual environment will be preserved."
         )
 
         return False
 
-    print("[CREATE] Creating .venv...")
+    print(
+        "[INFO] No .venv found."
+    )
 
-    subprocess.run(
+    print(
+        "[INFO] Creating virtual environment..."
+    )
+
+    run_command(
         [
             sys.executable,
             "-m",
             "venv",
-            str(VENV_DIR),
-        ],
-        check=True,
+            str(
+                VENV_DIR
+            ),
+        ]
     )
 
     if not VENV_PYTHON.exists():
+
         raise RuntimeError(
             "Virtual environment creation failed."
         )
 
     print(
-        f"\n[OK] Virtual environment created:\n"
-        f"{VENV_DIR}"
+        "[OK] Virtual environment created."
     )
 
     return True
 
 
 # ============================================================
-# INSTALL REQUIREMENTS
+# 7. LOAD REQUIREMENTS
 # ============================================================
 
-def install_requirements(
-    environment_created: bool,
-) -> None:
-    print("\n[6/8] Checking Python dependencies...\n")
 
-    stamp_file = (
-        VENV_DIR
-        / ".requirements_installed"
-    )
+def load_requirements() -> list[
+    tuple[str, str]
+]:
 
-    requirements_modified = (
-        REQUIREMENTS_FILE.stat().st_mtime
-    )
+    if not REQUIREMENTS_FILE.exists():
 
-    requirements_need_installing = (
-        environment_created
-        or not stamp_file.exists()
-        or (
-            stamp_file.stat().st_mtime
-            < requirements_modified
+        raise FileNotFoundError(
+            f"requirements.txt not found: "
+            f"{REQUIREMENTS_FILE}"
         )
+
+    requirements = []
+
+    for raw_line in REQUIREMENTS_FILE.read_text(
+        encoding="utf-8"
+    ).splitlines():
+
+        line = raw_line.strip()
+
+        if not line:
+            continue
+
+        if line.startswith("#"):
+            continue
+
+        if line.startswith("-"):
+            continue
+
+        if "://" in line:
+            continue
+
+        match = re.match(
+            r"^([A-Za-z0-9_.-]+)",
+            line,
+        )
+
+        if not match:
+            continue
+
+        distribution_name = (
+            match.group(1)
+        )
+
+        requirements.append(
+            (
+                distribution_name,
+                line,
+            )
+        )
+
+    return requirements
+
+
+# ============================================================
+# 8. PACKAGE CHECK
+# ============================================================
+
+
+def package_is_installed(
+    distribution_name: str,
+) -> bool:
+
+    result = run_command(
+        [
+            str(
+                VENV_PYTHON
+            ),
+            "-m",
+            "pip",
+            "show",
+            distribution_name,
+        ],
+        check=False,
+        capture_output=True,
     )
 
-    if not requirements_need_installing:
+    return (
+        result.returncode
+        == 0
+    )
+
+
+def find_missing_requirements() -> list[str]:
+
+    print_header(
+        "DEPENDENCY CHECK"
+    )
+
+    missing = []
+
+    for (
+        distribution_name,
+        requirement_spec,
+    ) in load_requirements():
+
+        if package_is_installed(
+            distribution_name
+        ):
+
+            print(
+                f"[OK] {distribution_name}"
+            )
+
+        else:
+
+            print(
+                f"[MISSING] {distribution_name}"
+            )
+
+            missing.append(
+                requirement_spec
+            )
+
+    return missing
+
+
+# ============================================================
+# 9. INSTALL ONLY MISSING REQUIREMENTS
+# ============================================================
+
+
+def install_missing_requirements(
+    missing: list[str],
+) -> None:
+
+    if not missing:
+
+        print()
         print(
-            "[OK] Requirements are already installed."
+            "[OK] All requirements are already installed."
+        )
+
+        print(
+            "No packages were reinstalled."
         )
 
         return
 
-    print("[INSTALL] Updating pip...\n")
-
-    subprocess.run(
-        [
-            str(VENV_PYTHON),
-            "-m",
-            "pip",
-            "install",
-            "--upgrade",
-            "pip",
-        ],
-        check=True,
-    )
-
-    print("\n[INSTALL] Installing requirements...\n")
-
-    subprocess.run(
-        [
-            str(VENV_PYTHON),
-            "-m",
-            "pip",
-            "install",
-            "-r",
-            str(REQUIREMENTS_FILE),
-        ],
-        check=True,
-    )
-
-    stamp_file.touch()
-
+    print()
     print(
-        "\n[OK] Requirements installed successfully."
+        "Installing ONLY missing packages:"
     )
 
-
-# ============================================================
-# CREATE STARTER FILES
-# ============================================================
-
-def create_starter_files() -> None:
-    print("\n[7/8] Creating workflow starter files...\n")
-
-    starter_files = {
-        "preprocessing/preprocess.py": (
-            '"""Dataset preprocessing pipeline."""\n'
-        ),
-
-        "training/train.py": (
-            '"""YOLO model training pipeline."""\n'
-        ),
-
-        "validation/validate.py": (
-            '"""Model validation pipeline."""\n'
-        ),
-
-        "testing/test_model.py": (
-            '"""Final model testing pipeline."""\n'
-        ),
-    }
-
-    for relative_path, content in starter_files.items():
-        file_path = PROJECT_ROOT / relative_path
-
-        if file_path.exists():
-            print(
-                f"[SKIP] {relative_path}"
-            )
-
-            continue
-
-        file_path.write_text(
-            content,
-            encoding="utf-8",
-        )
+    for requirement in missing:
 
         print(
-            f"[OK] {relative_path}"
+            f"  - {requirement}"
+        )
+
+    run_command(
+        [
+            str(
+                VENV_PYTHON
+            ),
+            "-m",
+            "pip",
+            "install",
+            *missing,
+        ]
+    )
+
+
+# ============================================================
+# 10. PIP CHECK
+# ============================================================
+
+
+def run_pip_check() -> None:
+
+    print_header(
+        "DEPENDENCY CONSISTENCY"
+    )
+
+    result = run_command(
+        [
+            str(
+                VENV_PYTHON
+            ),
+            "-m",
+            "pip",
+            "check",
+        ],
+        check=False,
+        capture_output=True,
+    )
+
+    output = (
+        result.stdout.strip()
+        or result.stderr.strip()
+    )
+
+    if result.returncode == 0:
+
+        print(
+            "[OK] pip dependency check passed."
+        )
+
+        if output:
+
+            print(
+                output
+            )
+
+    else:
+
+        print(
+            "[WARNING] Dependency conflicts detected:"
+        )
+
+        print()
+
+        print(
+            output
         )
 
 
 # ============================================================
-# PRINT PROJECT SUMMARY
+# 11. IMPORT SMOKE TEST
 # ============================================================
 
-def print_summary() -> None:
-    print("\n[8/8] Setup completed.")
 
-    print("\n" + "=" * 65)
-    print(" UNDERWATER FISH DETECTION PROJECT READY")
-    print("=" * 65)
+def run_import_test() -> None:
 
-    print(
-        "\nPROJECT PIPELINE\n"
+    print_header(
+        "PYTHON IMPORT SMOKE TEST"
     )
 
-    print(
-        "RAW DATASET\n"
-        "     |\n"
-        "     v\n"
-        "PREPROCESSING\n"
-        "     |\n"
-        "     v\n"
-        "TRAINING\n"
-        "     |\n"
-        "     v\n"
-        "VALIDATION\n"
-        "     |\n"
-        "     v\n"
-        "TESTING\n"
+    code = """
+import cv2
+import numpy
+import requests
+import tqdm
+import pandas
+import matplotlib
+import sklearn
+import albumentations
+import yaml
+import ultralytics
+
+print("Core Python environment imports: OK")
+"""
+
+    result = run_command(
+        [
+            str(
+                VENV_PYTHON
+            ),
+            "-c",
+            code,
+        ],
+        check=False,
+        capture_output=True,
     )
 
-    print(
-        "\nProject root:"
+    if result.returncode == 0:
+
+        print(
+            result.stdout.strip()
+        )
+
+    else:
+
+        print(
+            "[ERROR] Import smoke test failed."
+        )
+
+        print()
+
+        print(
+            result.stderr.strip()
+        )
+
+
+# ============================================================
+# 12. VS CODE SETTINGS
+# ============================================================
+
+
+def ensure_vscode_settings() -> None:
+
+    print_header(
+        "VS CODE"
     )
 
-    print(
+    vscode = (
         PROJECT_ROOT
+        / ".vscode"
+    )
+
+    vscode.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    settings = (
+        vscode
+        / "settings.json"
+    )
+
+    if settings.exists():
+
+        print(
+            "[OK] Existing .vscode/settings.json preserved."
+        )
+
+        return
+
+    settings.write_text(
+        """{
+    "python.defaultInterpreterPath": "${workspaceFolder}\\\\.venv\\\\Scripts\\\\python.exe",
+    "python.terminal.activateEnvironment": true,
+
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": false,
+
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/.pytest_cache": true
+    },
+
+    "search.exclude": {
+        "**/.venv": true,
+        "master_dataset/raw": true,
+        "preprocessing/prepared_dataset": true,
+        "preprocessing/preprocessed_dataset": true,
+        "preprocessing/smoke_test_results/candidates": true
+    }
+}
+""",
+        encoding="utf-8",
     )
 
     print(
-        "\nPython environment:"
+        "[CREATED] .vscode/settings.json"
+    )
+
+
+# ============================================================
+# FINAL SUMMARY
+# ============================================================
+
+
+def print_summary(
+    missing_packages: int,
+) -> None:
+
+    print()
+    print("=" * 72)
+    print(" PROJECT SETUP COMPLETE")
+    print("=" * 72)
+
+    print()
+
+    print(
+        "Project structure        : VERIFIED"
     )
 
     print(
-        VENV_DIR
+        "Virtual environment       : PRESERVED"
     )
 
     print(
-        "\nRaw dataset:"
+        "Prepared dataset stage    : READY"
     )
 
     print(
-        PROJECT_ROOT
-        / "data"
-        / "raw"
-        / "brackish"
+        "Smoke-test stage          : READY"
     )
 
     print(
-        "\nProcessed dataset:"
+        "Master preprocessing      : READY"
+    )
+
+    if missing_packages == 0:
+
+        print(
+            "Requirements             : ALREADY INSTALLED"
+        )
+
+    else:
+
+        print(
+            "Requirements             : REPAIRED"
+        )
+
+    print(
+        "Dataset preparation       : NOT RUN"
     )
 
     print(
-        PROJECT_ROOT
-        / "data"
-        / "processed"
-        / "brackish"
+        "Preprocessing             : NOT RUN"
     )
 
     print(
-        "\nVS Code is configured to use:"
+        "Training                  : NOT RUN"
+    )
+
+    print()
+
+    print(
+        "Canonical preprocessing pipeline:"
+    )
+
+    print()
+
+    print(
+        "master_dataset/raw/brackish"
     )
 
     print(
-        ".venv\\Scripts\\python.exe"
+        "            ↓"
     )
 
     print(
-        "\nIMPORTANT:"
-        "\nClose existing VS Code terminals and open a new terminal."
-        "\nThe .venv environment should then activate automatically."
+        "prepare_dataset.py"
+    )
+
+    print(
+        "            ↓"
+    )
+
+    print(
+        "prepared_dataset"
+    )
+
+    print(
+        "            ↓"
+    )
+
+    print(
+        "smoke_test.py"
+    )
+
+    print(
+        "            ↓"
+    )
+
+    print(
+        "master_preprocessing.py"
+    )
+
+    print(
+        "            ↓"
+    )
+
+    print(
+        "preprocessed_dataset"
+    )
+
+    print(
+        "            ↓"
+    )
+
+    print(
+        "training"
+    )
+
+    print()
+
+    print(
+        "Next stage:"
+    )
+
+    print(
+        "  preprocessing/prepare_dataset.py"
     )
 
 
@@ -716,30 +1058,51 @@ def print_summary() -> None:
 # MAIN
 # ============================================================
 
+
 def main() -> None:
-    print("\n" + "=" * 65)
-    print(" FISH DETECTION PROJECT SETUP")
-    print("=" * 65)
 
-    create_directories()
+    print()
+    print("=" * 72)
+    print(" FISH DETECTION - PROJECT SETUP")
+    print("=" * 72)
 
-    create_gitkeep_files()
+    print()
 
-    create_python_packages()
-
-    create_project_files()
-
-    environment_created = (
-        create_virtual_environment()
+    print(
+        f"Project root:\n{PROJECT_ROOT}"
     )
 
-    install_requirements(
-        environment_created
+    ensure_project_structure()
+
+    ensure_gitkeep_files()
+
+    ensure_dataset_yaml_files()
+
+    check_obsolete_directories()
+
+    verify_source_files()
+
+    ensure_virtual_environment()
+
+    missing = (
+        find_missing_requirements()
     )
 
-    create_starter_files()
+    install_missing_requirements(
+        missing
+    )
 
-    print_summary()
+    run_pip_check()
+
+    run_import_test()
+
+    ensure_vscode_settings()
+
+    print_summary(
+        len(
+            missing
+        )
+    )
 
 
 if __name__ == "__main__":

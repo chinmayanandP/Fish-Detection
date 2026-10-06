@@ -1,0 +1,162 @@
+[
+  {
+    "sample_number": 1,
+    "prepared_image": "train/images/train__6836__2019-03-19_18-01-56to2019-03-19_18-02-13_1-0017_jpg.rf.970df88e2cdff47bf8f82f55c457e3a5.jpg",
+    "deployment": "2019-03-19_18-01-56to2019-03-19_18-02-13_1",
+    "sample_type": "positive",
+    "selection_reason": "tiny_fish_heavy",
+    "target_count": 18
+  },
+  {
+    "sample_number": 2,
+    "prepared_image": "train/images/valid__1193__2019-03-19_18-01-56to2019-03-19_18-02-13_1-0046_jpg.rf.c9391d15c3d420d350ecc07ecb5d0125.jpg",
+    "deployment": "2019-03-19_18-01-56to2019-03-19_18-02-13_1",
+    "sample_type": "positive",
+    "selection_reason": "small_fish_heavy",
+    "target_count": 19
+  },
+  {
+    "sample_number": 3,
+    "prepared_image": "train/images/test__1292__2019-02-22_22-22-16to2019-02-22_22-22-27_1-0065_jpg.rf.e0209071c3a7a50d1e7ee31d023094ec.jpg",
+    "deployment": "2019-02-22_22-22-16to2019-02-22_22-22-27_1",
+    "sample_type": "positive",
+    "selection_reason": "dark_scene",
+    "target_count": 1
+  },
+  {
+    "sample_number": 4,
+    "prepared_image": "train/images/train__3165__2019-03-20_23-30-18to2019-03-20_23-30-28_1-0020_jpg.rf.458b3bf2b11000a96aba8cf6215eeed2.jpg",
+    "deployment": "2019-03-20_23-30-18to2019-03-20_23-30-28_1",
+    "sample_type": "positive",
+    "selection_reason": "bright_scene",
+    "target_count": 1
+  },
+  {
+    "sample_number": 5,
+    "prepared_image": "train/images/train__3102__2019-03-07_08-57-30to2019-03-07_08-57-40_1-0083_jpg.rf.44332fb5971a355ead7a37f8dfaac4d4.jpg",
+    "deployment": "2019-03-07_08-57-30to2019-03-07_08-57-40_1",
+    "sample_type": "positive",
+    "selection_reason": "low_contrast_scene",
+    "target_count": 1
+  },
+  {
+    "sample_number": 6,
+    "prepared_image": "train/images/train__2613__2019-03-20_23-30-18to2019-03-20_23-30-28_1-0048_jpg.rf.39da836d8e4c0552283a658479b8157d.jpg",
+    "deployment": "2019-03-20_23-30-18to2019-03-20_23-30-28_1",
+    "sample_type": "positive",
+    "selection_reason": "high_contrast_scene",
+    "target_count": 1
+  },
+  {
+    "sample_number": 7,
+    "prepared_image": "train/images/train__7235__2019-03-19_18-01-56to2019-03-19_18-02-13_1-0108_jpg.rf.9f609ddbfc69b14b45469f4069bbe39b.jpg",
+    "deployment": "2019-03-19_18-01-56to2019-03-19_18-02-13_1",
+    "sample_type": "positive",
+    "selection_reason": "soft_scene",
+    "target_count": 16
+  },
+  {
+    "sample_number": 8,
+    "prepared_image": "train/images/train__7660__2019-03-20_23-30-18to2019-03-20_23-30-28_1-0096_jpg.rf.a898cd2faf54595c195610cdb09808db.jpg",
+    "deployment": "2019-03-20_23-30-18to2019-03-20_23-30-28_1",
+    "sample_type": "positive",
+    "selection_reason": "high_detail_scene",
+    "target_count": 1
+  },
+  {
+    "sample_number": 9,
+    "prepared_image": "train/images/train__11211__2019-03-07_08-57-30to2019-03-07_08-57-40_1-0054_jpg.rf.f463f4613c90d1344a88a18c0edd0e2f.jpg",
+    "deployment": "2019-03-07_08-57-30to2019-03-07_08-57-40_1",
+    "sample_type": "positive",
+    "selection_reason": "strong_colour_cast",
+    "target_count": 1
+  },
+  {
+    "sample_number": 10,
+    "prepared_image": "train/images/train__7469__2019-03-21_01-41-04to2019-03-21_01-41-16_1-0050_jpg.rf.a424cd21e9e6256945f1b34b942e2117.jpg",
+    "deployment": "2019-03-21_01-41-04to2019-03-21_01-41-16_1",
+    "sample_type": "positive",
+    "selection_reason": "weak_colour_cast",
+    "target_count": 1
+  },
+  {
+    "sample_number": 11,
+    "prepared_image": "train/images/train__10558__2019-03-19_18-01-56to2019-03-19_18-02-13_1-0058_jpg.rf.e5c79eff11c7b0e6ad835c69ae0c827e.jpg",
+    "deployment": "2019-03-19_18-01-56to2019-03-19_18-02-13_1",
+    "sample_type": "positive",
+    "selection_reason": "many_fish",
+    "target_count": 19
+  },
+  {
+    "sample_number": 12,
+    "prepared_image": "train/images/valid__1319__2019-03-06_22-16-56to2019-03-06_22-17-10_1-0130_jpg.rf.e46b06aed997bc885304a9d1695eab48.jpg",
+    "deployment": "2019-03-06_22-16-56to2019-03-06_22-17-10_1",
+    "sample_type": "positive",
+    "selection_reason": "diverse_positive_random",
+    "target_count": 1
+  },
+  {
+    "sample_number": 13,
+    "prepared_image": "train/images/valid__959__2019-03-19_18-01-56to2019-03-19_18-02-13_1-0144_jpg.rf.a5e0ff61727e0f5f008029123f2934f2.jpg",
+    "deployment": "2019-03-19_18-01-56to2019-03-19_18-02-13_1",
+    "sample_type": "positive",
+    "selection_reason": "diverse_positive_random",
+    "target_count": 12
+  },
+  {
+    "sample_number": 14,
+    "prepared_image": "train/images/train__11321__2019-02-20_19-23-53to2019-02-20_19-24-12_1-0145_jpg.rf.f6631e5b750b54868ea8809bf808d19b.jpg",
+    "deployment": "2019-02-20_19-23-53to2019-02-20_19-24-12_1",
+    "sample_type": "positive",
+    "selection_reason": "diverse_positive_random",
+    "target_count": 1
+  },
+  {
+    "sample_number": 15,
+    "prepared_image": "train/images/valid__1266__2019-02-20_19-23-53to2019-02-20_19-24-12_1-0185_jpg.rf.d79570e7e3a5d7f853629c945fc50cf6.jpg",
+    "deployment": "2019-02-20_19-23-53to2019-02-20_19-24-12_1",
+    "sample_type": "negative",
+    "selection_reason": "negative_dark_scene",
+    "target_count": 0
+  },
+  {
+    "sample_number": 16,
+    "prepared_image": "train/images/train__3815__2019-03-07_08-57-30to2019-03-07_08-57-40_1-0036_jpg.rf.532db4ceeedeb4f637c4834667a39f31.jpg",
+    "deployment": "2019-03-07_08-57-30to2019-03-07_08-57-40_1",
+    "sample_type": "negative",
+    "selection_reason": "negative_low_contrast",
+    "target_count": 0
+  },
+  {
+    "sample_number": 17,
+    "prepared_image": "train/images/train__7829__2019-03-19_18-01-56to2019-03-19_18-02-13_1-0250_jpg.rf.ac36300e9c8694a01fcdcbd76e32160b.jpg",
+    "deployment": "2019-03-19_18-01-56to2019-03-19_18-02-13_1",
+    "sample_type": "negative",
+    "selection_reason": "negative_soft_scene",
+    "target_count": 0
+  },
+  {
+    "sample_number": 18,
+    "prepared_image": "train/images/train__5472__2019-03-20_11-52-23to2019-03-20_11-52-31_1-0063_jpg.rf.78cfd624d4b8d0b8d34dc01d882398dd.jpg",
+    "deployment": "2019-03-20_11-52-23to2019-03-20_11-52-31_1",
+    "sample_type": "negative",
+    "selection_reason": "negative_strong_colour_cast",
+    "target_count": 0
+  },
+  {
+    "sample_number": 19,
+    "prepared_image": "train/images/train__2816__2019-03-06_22-01-00to2019-03-06_22-01-09_1-0111_jpg.rf.3e61e85fa567b302a5f7482b5a138de1.jpg",
+    "deployment": "2019-03-06_22-01-00to2019-03-06_22-01-09_1",
+    "sample_type": "negative",
+    "selection_reason": "diverse_negative_random",
+    "target_count": 0
+  },
+  {
+    "sample_number": 20,
+    "prepared_image": "train/images/valid__327__2019-03-06_22-12-29to2019-03-06_22-12-37_1-0104_jpg.rf.3aead4266508d962bd903dc1cef34ffd.jpg",
+    "deployment": "2019-03-06_22-12-29to2019-03-06_22-12-37_1",
+    "sample_type": "negative",
+    "selection_reason": "diverse_negative_random",
+    "target_count": 0
+  }
+]

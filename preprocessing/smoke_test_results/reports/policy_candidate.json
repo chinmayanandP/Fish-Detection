@@ -1,0 +1,112 @@
+{
+  "policy_version": "1.4.3-calibration",
+  "approval_status": "REVIEW_REQUIRED",
+  "created_at_utc": "2026-10-05T20:50:56.577742+00:00",
+  "dataset_fingerprint_sha256": "057439d546990e6b5b0b2758813435e8ca854902890ffbf765b6c515342cadde",
+  "runtime_selector": "label_free",
+  "annotations_used_at_runtime": false,
+  "class_neutral_threshold_calibration": true,
+  "positive_images_rewarded": false,
+  "negative_images_penalized": false,
+  "annotations_used_for": [
+    "offline fish ROI safety validation",
+    "tiny-fish safety validation",
+    "representative calibration sampling",
+    "visual comparison grids"
+  ],
+  "score_model": "benefit_only_after_safety_gate",
+  "benefit_weights": {
+    "uciqe_proxy": 0.24,
+    "uiqm_proxy": 0.18,
+    "brightness_quality": 0.16,
+    "contrast_quality": 0.14,
+    "entropy_quality": 0.1,
+    "color_balance": 0.1,
+    "sharpness_quality": 0.08
+  },
+  "minimum_improvement": 0.02,
+  "raw_fallback": true,
+  "candidate_modes": [
+    "raw_baseline",
+    "white_balance_conservative",
+    "clahe_very_mild",
+    "adaptive_gamma_light",
+    "adaptive_gamma_standard",
+    "bilateral_denoise_mild",
+    "mild_dehaze_low",
+    "mild_dehaze_medium"
+  ],
+  "normal_risk_modes": [
+    "adaptive_gamma_light",
+    "adaptive_gamma_standard",
+    "mild_dehaze_low",
+    "mild_dehaze_medium"
+  ],
+  "higher_risk_modes": [
+    "bilateral_denoise_mild",
+    "clahe_very_mild",
+    "white_balance_conservative"
+  ],
+  "higher_risk_extra_improvement": 0.003,
+  "higher_risk_advantage_over_safe": 0.002,
+  "benefit_tie_epsilon": 0.0005,
+  "forbidden_operations": [
+    "rotation",
+    "large_rotation",
+    "perspective_transform",
+    "affine_transform",
+    "crop",
+    "resolution_reduction",
+    "aspect_ratio_change",
+    "synthetic_noise",
+    "heavy_noise",
+    "heavy_blur",
+    "heavy_denoise",
+    "aggressive_sharpening",
+    "extreme_colour_shift",
+    "extreme_hue_shift",
+    "extreme_saturation"
+  ],
+  "local_detail_protection": {
+    "grid_sizes": [
+      4,
+      8
+    ],
+    "meaningful_tile_keep_ratio": 0.6,
+    "min_detail_p10": 0.78,
+    "min_edge_recall_p10": 0.72,
+    "min_sharpness_p10": 0.72,
+    "max_sharpness_p90": 2.4,
+    "max_noise_p90": 1.8
+  },
+  "calibration": {
+    "scope": "train_only",
+    "sample_count": 200,
+    "smoke_overlap": 0,
+    "method": "lowest_zero_roi_damage_class_neutral_threshold",
+    "calibration_safe": true,
+    "threshold_grid": [
+      0.0005,
+      0.001,
+      0.0015,
+      0.002,
+      0.003,
+      0.004,
+      0.005,
+      0.006,
+      0.008,
+      0.01,
+      0.012,
+      0.014,
+      0.016,
+      0.018,
+      0.02,
+      0.022,
+      0.025,
+      0.03
+    ],
+    "minimum_processed_count": 10,
+    "minimum_processed_rate": 0.05
+  },
+  "policy_fingerprint_sha256": "d013c59cf7edb9898bf5def1b7f42029da694bb730a619fd3084ec808ae7e67e"
+}

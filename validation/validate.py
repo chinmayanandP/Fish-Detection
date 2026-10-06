@@ -1,1 +1,1 @@
-"""Model validation pipeline."""
+"""Fish detection validation stage."""

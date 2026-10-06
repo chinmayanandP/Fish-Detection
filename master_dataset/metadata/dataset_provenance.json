@@ -1,0 +1,18 @@
+{
+  "dataset": "Brackish",
+  "source_url": "https://public.roboflow.com/ds/vGBLxigwno?key=bhFPGoB3VB",
+  "source_root": "C:\\underwater fish detection\\Fish-Detection\\master_dataset\\raw\\brackish",
+  "audited_at_utc": "2026-10-05T18:38:48.186588+00:00",
+  "preparation_version": "1.0",
+  "target_categories": [
+    "fish",
+    "small_fish"
+  ],
+  "final_class": "fish",
+  "split_seed": 42,
+  "split_ratios": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  }
+}
