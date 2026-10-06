@@ -1,0 +1,7 @@
+path: C:/underwater fish detection/Fish-Detection/preprocessing/preprocessed_dataset
+train: train/images
+val: val/images
+test: test/images
+names:
+  0: fish
+nc: 1

@@ -1,0 +1,82 @@
+{
+  "status": "CERTIFIED",
+  "generated_at_utc": "2026-10-06T06:01:10.822243+00:00",
+  "started_at_utc": "2026-10-05T21:28:25.382089+00:00",
+  "duration_seconds": 30765.44,
+  "run_mode": "full",
+  "policy_version": "1.4.3",
+  "selector_source_version": "1.4.3-calibration",
+  "policy_fingerprint_sha256": "034b67cf16b8c1843eba62a91f7cea494e3dc97f172a9681d3029a9f81c08cbc",
+  "frozen_threshold": 0.02,
+  "runtime_selector_label_free": true,
+  "annotations_used_at_runtime": false,
+  "record_count": 14674,
+  "resumed_count": 0,
+  "processed_now_count": 14674,
+  "raw_winners": 12422,
+  "processed_winners": 2252,
+  "processed_rate": 0.15346872018536187,
+  "winner_distribution": {
+    "raw_baseline": 12422,
+    "white_balance_conservative": 0,
+    "clahe_very_mild": 0,
+    "adaptive_gamma_light": 0,
+    "adaptive_gamma_standard": 2252,
+    "bilateral_denoise_mild": 0,
+    "mild_dehaze_low": 0,
+    "mild_dehaze_medium": 0
+  },
+  "winner_distribution_by_split": {
+    "train": {
+      "raw_baseline": 8369,
+      "white_balance_conservative": 0,
+      "clahe_very_mild": 0,
+      "adaptive_gamma_light": 0,
+      "adaptive_gamma_standard": 1812,
+      "bilateral_denoise_mild": 0,
+      "mild_dehaze_low": 0,
+      "mild_dehaze_medium": 0
+    },
+    "val": {
+      "raw_baseline": 2042,
+      "white_balance_conservative": 0,
+      "clahe_very_mild": 0,
+      "adaptive_gamma_light": 0,
+      "adaptive_gamma_standard": 231,
+      "bilateral_denoise_mild": 0,
+      "mild_dehaze_low": 0,
+      "mild_dehaze_medium": 0
+    },
+    "test": {
+      "raw_baseline": 2011,
+      "white_balance_conservative": 0,
+      "clahe_very_mild": 0,
+      "adaptive_gamma_light": 0,
+      "adaptive_gamma_standard": 209,
+      "bilateral_denoise_mild": 0,
+      "mild_dehaze_low": 0,
+      "mild_dehaze_medium": 0
+    }
+  },
+  "candidate_rejection_reason_counts": {
+    "edge_explosion_or_artifacts": 9821,
+    "local_over_sharpening": 14674,
+    "local_noise_increase": 14674,
+    "local_blur": 15117,
+    "local_detail_loss": 1655,
+    "local_contrast_explosion": 248
+  },
+  "verification": {
+    "passed": true,
+    "record_count": 14674,
+    "split_counts": {
+      "train": 10181,
+      "val": 2273,
+      "test": 2220
+    },
+    "label_mismatches": 0,
+    "geometry_failures": 0,
+    "hash_failures": 0
+  },
+  "output_root": "C:\\underwater fish detection\\Fish-Detection\\preprocessing\\preprocessed_dataset"
+}

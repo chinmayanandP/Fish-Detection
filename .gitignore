@@ -90,3 +90,97 @@ runs/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# === FISH DETECTION GENERATED DATA START ===
+
+# Master dataset bytes
+master_dataset/downloads/*
+!master_dataset/downloads/.gitkeep
+
+master_dataset/raw/*
+!master_dataset/raw/brackish/
+master_dataset/raw/brackish/*
+!master_dataset/raw/brackish/.gitkeep
+
+# Smoke-test generated images
+preprocessing/smoke_test_results/candidates/*
+!preprocessing/smoke_test_results/candidates/.gitkeep
+
+preprocessing/smoke_test_results/winners/*
+!preprocessing/smoke_test_results/winners/.gitkeep
+
+preprocessing/smoke_test_results/comparison_grids/*
+!preprocessing/smoke_test_results/comparison_grids/.gitkeep
+
+# Final preprocessed image/label bytes
+preprocessing/preprocessed_dataset/train/images/*
+!preprocessing/preprocessed_dataset/train/images/.gitkeep
+
+preprocessing/preprocessed_dataset/train/labels/*
+!preprocessing/preprocessed_dataset/train/labels/.gitkeep
+
+preprocessing/preprocessed_dataset/val/images/*
+!preprocessing/preprocessed_dataset/val/images/.gitkeep
+
+preprocessing/preprocessed_dataset/val/labels/*
+!preprocessing/preprocessed_dataset/val/labels/.gitkeep
+
+preprocessing/preprocessed_dataset/test/images/*
+!preprocessing/preprocessed_dataset/test/images/.gitkeep
+
+preprocessing/preprocessed_dataset/test/labels/*
+!preprocessing/preprocessed_dataset/test/labels/.gitkeep
+
+# Model binaries / checkpoints
+training/results/models/*
+!training/results/models/.gitkeep
+
+training/results/checkpoints/*
+!training/results/checkpoints/.gitkeep
+
+# External video bytes
+external_video/input/*
+!external_video/input/.gitkeep
+
+external_video/results/videos/*
+!external_video/results/videos/.gitkeep
+
+external_video/results/frames/*
+!external_video/results/frames/.gitkeep
+
+# Generic ML model files
+*.pt
+*.pth
+*.onnx
+*.engine
+
+# === FISH DETECTION GENERATED DATA END ===
+
+# Prepared dataset image/label bytes
+preprocessing/prepared_dataset/train/images/*
+!preprocessing/prepared_dataset/train/images/.gitkeep
+
+preprocessing/prepared_dataset/train/labels/*
+!preprocessing/prepared_dataset/train/labels/.gitkeep
+
+preprocessing/prepared_dataset/val/images/*
+!preprocessing/prepared_dataset/val/images/.gitkeep
+
+preprocessing/prepared_dataset/val/labels/*
+!preprocessing/prepared_dataset/val/labels/.gitkeep
+
+preprocessing/prepared_dataset/test/images/*
+!preprocessing/prepared_dataset/test/images/.gitkeep
+
+preprocessing/prepared_dataset/test/labels/*
+!preprocessing/prepared_dataset/test/labels/.gitkeep
+
+
+# Master preprocessing engineering smoke output
+preprocessing/master_preprocessing_smoke/
+
+# Re-creatable visual review archive
+preprocessing/smoke_test_results/final_visual_review.zip
+
+# Runtime checkpoint / resume state
+preprocessing/preprocessed_dataset/manifests/progress.jsonl

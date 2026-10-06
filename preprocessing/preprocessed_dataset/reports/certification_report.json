@@ -1,0 +1,14 @@
+{
+  "status": "CERTIFIED",
+  "policy_version": "1.4.3",
+  "selector_source_version": "1.4.3-calibration",
+  "frozen_threshold": 0.02,
+  "policy_fingerprint_sha256": "034b67cf16b8c1843eba62a91f7cea494e3dc97f172a9681d3029a9f81c08cbc",
+  "input_output_count_match": true,
+  "geometry_failures": 0,
+  "label_mismatches": 0,
+  "hash_failures": 0,
+  "runtime_annotations_used": false,
+  "threshold_recalibrated": false,
+  "generated_at_utc": "2026-10-06T06:01:10.840741+00:00"
+}

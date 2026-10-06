@@ -1,1 +1,1 @@
-"""YOLO model training pipeline."""
+"""Fish detection training stage."""

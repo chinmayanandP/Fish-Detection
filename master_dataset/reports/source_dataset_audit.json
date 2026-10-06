@@ -1,0 +1,30 @@
+{
+  "prepared_at_utc": "2026-10-05T18:38:48.186588+00:00",
+  "source_path": "C:\\underwater fish detection\\Fish-Detection\\master_dataset\\raw\\brackish",
+  "source_split_counts": {
+    "train": 11739,
+    "valid": 1467,
+    "test": 1468
+  },
+  "usable_records": 14674,
+  "source_category_annotation_counts": {
+    "crab": 12348,
+    "fish": 3352,
+    "jellyfish": 637,
+    "shrimp": 548,
+    "small_fish": 10768,
+    "starfish": 7912
+  },
+  "issues": {
+    "missing_images": [],
+    "corrupt_images": [],
+    "orphan_images": [],
+    "orphan_annotations": [],
+    "invalid_boxes": [],
+    "dimension_mismatches": [],
+    "unknown_categories": [],
+    "missing_target_categories": []
+  },
+  "duplicate_groups": [],
+  "duplicate_annotation_conflicts": []
+}

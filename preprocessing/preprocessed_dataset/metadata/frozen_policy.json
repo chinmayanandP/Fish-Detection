@@ -1,0 +1,25 @@
+{
+  "policy_version": "1.4.3",
+  "selector_source_version": "1.4.3-calibration",
+  "selector_file_sha256": "f45e98a62db4ee36f3eabc6681149bf565e3b6dbc804f34dc5347e73ecb39280",
+  "minimum_improvement": 0.02,
+  "candidate_modes": [
+    "raw_baseline",
+    "white_balance_conservative",
+    "clahe_very_mild",
+    "adaptive_gamma_light",
+    "adaptive_gamma_standard",
+    "bilateral_denoise_mild",
+    "mild_dehaze_low",
+    "mild_dehaze_medium"
+  ],
+  "runtime_selector": "label_free",
+  "annotations_used_at_runtime": false,
+  "raw_fallback": true,
+  "raw_encoding": "byte_for_byte_source_copy",
+  "processed_encoding": "lossless_png",
+  "label_handling": "byte_for_byte_copy",
+  "visual_review_status": "APPROVED",
+  "source_dataset_fingerprint_sha256": "057439d546990e6b5b0b2758813435e8ca854902890ffbf765b6c515342cadde",
+  "policy_fingerprint_sha256": "034b67cf16b8c1843eba62a91f7cea494e3dc97f172a9681d3029a9f81c08cbc"
+}

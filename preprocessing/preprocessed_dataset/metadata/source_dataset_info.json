@@ -1,0 +1,45 @@
+{
+  "preparation_version": "1.0",
+  "prepared_at_utc": "2026-10-05T18:40:38.403332+00:00",
+  "dataset_name": "Brackish",
+  "source_url": "https://public.roboflow.com/ds/vGBLxigwno?key=bhFPGoB3VB",
+  "source_root": "C:\\underwater fish detection\\Fish-Detection\\master_dataset\\raw\\brackish",
+  "prepared_root": "C:\\underwater fish detection\\Fish-Detection\\preprocessing\\prepared_dataset",
+  "final_classes": {
+    "0": "fish"
+  },
+  "source_target_mapping": {
+    "fish": "fish",
+    "small_fish": "fish"
+  },
+  "split_seed": 42,
+  "requested_split_ratios": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  },
+  "images": 14674,
+  "target_boxes": 14120,
+  "negative_images": 8828,
+  "split_image_counts": {
+    "val": 2273,
+    "train": 10181,
+    "test": 2220
+  },
+  "split_target_box_counts": {
+    "val": 1930,
+    "train": 10370,
+    "test": 1820
+  },
+  "split_negative_image_counts": {
+    "val": 1274,
+    "train": 6320,
+    "test": 1234
+  },
+  "duplicate_groups": 0,
+  "duplicate_copies_removed": 0,
+  "materialization": {
+    "hardlink": 14674
+  },
+  "dataset_fingerprint_sha256": "057439d546990e6b5b0b2758813435e8ca854902890ffbf765b6c515342cadde"
+}

@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "prepared_at_utc": "2026-10-05T18:40:38.959329+00:00",
+  "source_audit": {
+    "usable_records": 14674,
+    "source_split_counts": {
+      "train": 11739,
+      "valid": 1467,
+      "test": 1468
+    },
+    "source_category_annotation_counts": {
+      "crab": 12348,
+      "fish": 3352,
+      "jellyfish": 637,
+      "shrimp": 548,
+      "small_fish": 10768,
+      "starfish": 7912
+    },
+    "issue_counts": {
+      "missing_images": 0,
+      "corrupt_images": 0,
+      "orphan_images": 0,
+      "orphan_annotations": 0,
+      "invalid_boxes": 0,
+      "dimension_mismatches": 0,
+      "unknown_categories": 0,
+      "missing_target_categories": 0
+    }
+  },
+  "duplicates": {
+    "groups": 0,
+    "copies_removed": 0,
+    "details": []
+  },
+  "split": {
+    "seed": 42,
+    "search_attempts": 300,
+    "ratios": {
+      "train": 0.7,
+      "val": 0.15,
+      "test": 0.15
+    },
+    "score": 0.04679489382272545,
+    "stats": {
+      "train": {
+        "images": 10181,
+        "image_percentage": 69.38,
+        "target_boxes": 10370,
+        "target_box_percentage": 73.44,
+        "deployment_groups": 61
+      },
+      "val": {
+        "images": 2273,
+        "image_percentage": 15.49,
+        "target_boxes": 1930,
+        "target_box_percentage": 13.67,
+        "deployment_groups": 14
+      },
+      "test": {
+        "images": 2220,
+        "image_percentage": 15.13,
+        "target_boxes": 1820,
+        "target_box_percentage": 12.89,
+        "deployment_groups": 14
+      }
+    }
+  },
+  "leakage": {
+    "deployment_leakage": false,
+    "duplicate_hash_leakage": false,
+    "deployment_overlap": {
+      "train_val": [],
+      "train_test": [],
+      "val_test": []
+    },
+    "hash_overlap": {
+      "train_val": [],
+      "train_test": [],
+      "val_test": []
+    }
+  },
+  "verification": {
+    "errors": [],
+    "error_count": 0,
+    "images": 14674,
+    "negative_images": 8828,
+    "target_boxes": 14120,
+    "split_counts": {
+      "val": 2273,
+      "train": 10181,
+      "test": 2220
+    }
+  },
+  "materialization": {
+    "hardlink": 14674
+  },
+  "dataset_fingerprint_sha256": "057439d546990e6b5b0b2758813435e8ca854902890ffbf765b6c515342cadde"
+}
